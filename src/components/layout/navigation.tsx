@@ -1,8 +1,7 @@
 "use client";
 
-import { Bell, Home, Key, Settings, User } from "lucide-react";
+import { Bell, Home, Key, Settings, User as UserIcon } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -19,6 +18,7 @@ import {
 } from "@/components/ui/sidebar";
 import { NavUser } from "./nav-user";
 import Image from "next/image";
+import { useUserStore } from "@/hooks/useUserStore";
 
 interface NavigationProps {
 	children: React.ReactNode;
@@ -26,6 +26,7 @@ interface NavigationProps {
 
 export default function Navigation({ children }: NavigationProps) {
 	const [currentPath, setCurrentPath] = useState("");
+	const { user } = useUserStore();
 
 	useEffect(() => {
 		setCurrentPath(window.location.pathname);
@@ -43,7 +44,7 @@ export default function Navigation({ children }: NavigationProps) {
 			label: "Acceso",
 		},
 		{
-			icon: User,
+			icon: UserIcon,
 			href: "/profile",
 			label: "Perfil",
 		},
@@ -58,12 +59,6 @@ export default function Navigation({ children }: NavigationProps) {
 		...menuItems,
 		{ icon: Bell, href: "/notifications", label: "Notificaciones" },
 	];
-
-	const user = {
-		name: "test",
-		email: "test",
-		avatar: "d",
-	};
 
 	return (
 		<SidebarProvider>
