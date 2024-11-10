@@ -16,7 +16,7 @@ export default function Layout({ children }: LayoutProps) {
 	return (
 		<>
 			<Navigation>
-				<main>{children}</main>
+				<main className="flex flex-col gap-4 pb-16 sm:pb-3">{children}</main>
 			</Navigation>
 		</>
 	);

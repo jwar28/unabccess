@@ -8,10 +8,8 @@ export default function Home() {
 	return (
 		<>
 			<Layout>
-				<div className="flex flex-col gap-4 pb-16 sm:pb-3">
-					<QrCard />
-					<AreasCard />
-				</div>
+				<QrCard />
+				<AreasCard />
 			</Layout>
 		</>
 	);
