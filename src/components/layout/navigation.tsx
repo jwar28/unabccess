@@ -25,11 +25,9 @@ interface NavigationProps {
 }
 
 export default function Navigation({ children }: NavigationProps) {
-	const router = useRouter();
 	const [currentPath, setCurrentPath] = useState("");
 
 	useEffect(() => {
-		// Verifica que el código solo se ejecute en el cliente
 		setCurrentPath(window.location.pathname);
 	}, []);
 
