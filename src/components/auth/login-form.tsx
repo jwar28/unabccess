@@ -8,13 +8,14 @@ import { Label } from "@/components/ui/label";
 import { AuthFormLayout } from "./auth-layout";
 import { signInWithEmail } from "@/api/auth";
 import useAuthStore from "@/hooks/useAuthStore";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export const LoginForm = () => {
 	const [email, setEmail] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
 	const [error, setError] = useState<string | null>(null);
 	const { setUser, setToken, setLoading, loading } = useAuthStore();
+	const router = useRouter();
 
 	const handleEmailLogin = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -27,6 +28,7 @@ export const LoginForm = () => {
 				console.log("Inicio de sesión exitoso:", user);
 				setUser(user);
 				setToken(await user?.getIdToken());
+				router.push("/");
 			} else {
 				setError("Error en el inicio de sesión. Verifica tus credenciales.");
 			}
@@ -35,7 +37,6 @@ export const LoginForm = () => {
 			console.error(error);
 		} finally {
 			setLoading(false);
-			redirect("/");
 		}
 	};
 
