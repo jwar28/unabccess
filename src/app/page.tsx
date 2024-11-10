@@ -1,8 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import useAuth from "../hooks/useAuth";
-import { logout } from "@/api/auth";
+import Layout from "@/components/layout/layout";
 
 export default function Home() {
   const { user, loading } = useAuth();
@@ -12,10 +11,11 @@ export default function Home() {
 
   return (
     <>
-      <h1>Welcome to the homepage!</h1>
-      <p>{user.email}</p>
-      <p>{user.uid}</p>
-      <Button onClick={logout}>Cerrar sesion</Button>
+      <Layout>
+        <h1>Welcome to the homepage!</h1>
+        <p>{user.email}</p>
+        <p>{user.uid}</p>
+      </Layout>
     </>
   );
 }
