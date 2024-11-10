@@ -1,8 +1,11 @@
+import Layout from "@/components/layout/layout";
+
 export default function ProfilePage() {
 	return (
-		<div>
-			<h1>Profile</h1>
-			<p>Here is your profile page.</p>
-		</div>
+		<>
+			<Layout>
+				<div className="flex flex-col gap-4 pb-16 sm:pb-3">holas</div>
+			</Layout>
+		</>
 	);
 }
