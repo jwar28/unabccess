@@ -18,7 +18,7 @@ export function AuthFormLayout({ title, desc, children }: FormProps) {
   return (
     <>
       <AuthBackground />
-      <div className="flex h-screen w-full items-center justify-center px-4">
+      <div className="flex h-dvh w-full items-center justify-center px-4">
         <Card className="mx-auto max-w-md w-full">
           <CardHeader>
             <Image
