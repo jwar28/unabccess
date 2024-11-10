@@ -20,9 +20,11 @@ import {
 import { logout } from "@/api/auth";
 import { User } from "@/types/user";
 import { getInitials } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 export function NavUser({ user }: { user: User }) {
 	const { isMobile } = useSidebar();
+	const router = useRouter();
 
 	return (
 		<SidebarMenu>
@@ -66,11 +68,11 @@ export function NavUser({ user }: { user: User }) {
 						</DropdownMenuLabel>
 						<DropdownMenuSeparator />
 						<DropdownMenuGroup>
-							<DropdownMenuItem>
+							<DropdownMenuItem onClick={() => router.push("/profile")}>
 								<UserIcon />
 								Perfil
 							</DropdownMenuItem>
-							<DropdownMenuItem>
+							<DropdownMenuItem onClick={() => router.push("/notifications")}>
 								<Bell />
 								Notificaciones
 							</DropdownMenuItem>

@@ -1,6 +1,13 @@
 "use client";
 
-import { Bell, Home, Key, Settings, User as UserIcon } from "lucide-react";
+import {
+	Bell,
+	Home,
+	Key,
+	Router,
+	Settings,
+	User as UserIcon,
+} from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -19,6 +26,7 @@ import {
 import { NavUser } from "./nav-user";
 import Image from "next/image";
 import { useUserStore } from "@/hooks/useUserStore";
+import { useRouter } from "next/navigation";
 
 interface NavigationProps {
 	children: React.ReactNode;
@@ -27,6 +35,7 @@ interface NavigationProps {
 export default function Navigation({ children }: NavigationProps) {
 	const [currentPath, setCurrentPath] = useState("");
 	const { user } = useUserStore();
+	const router = useRouter();
 
 	useEffect(() => {
 		setCurrentPath(window.location.pathname);
@@ -65,10 +74,10 @@ export default function Navigation({ children }: NavigationProps) {
 			{/* Desktop Sidebar */}
 			<Sidebar className="hidden lg:flex w-64">
 				<SidebarHeader>
-					<div className="flex items-center">
+					<Link className="flex items-center" href="/">
 						<Image src="/logo.png" alt="logo" width={60} height={20} />
 						<span className="px-4 text-2xl font-bold text">UNABccess</span>
-					</div>
+					</Link>
 				</SidebarHeader>
 				<SidebarSeparator />
 				<SidebarContent className="mt-3 flex justify-between">
@@ -109,7 +118,10 @@ export default function Navigation({ children }: NavigationProps) {
 							Javier Guerra
 						</span>
 					</div>
-					<button className="rounded-full p-2 hover:bg-gray-800">
+					<button
+						className="rounded-full p-2 hover:bg-gray-800"
+						onClick={() => router.push("/notifications")}
+					>
 						<Bell className="h-5 w-5 text-white" />
 						<span className="sr-only">Notifications</span>
 					</button>
