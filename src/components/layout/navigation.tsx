@@ -93,7 +93,7 @@ export default function Navigation({ children }: NavigationProps) {
 
       {/* Main Content Area with Header */}
       <SidebarInset className="flex flex-col">
-        <header className="flex h-16 items-center justify-between border-b bg-black px-4 sm:hidden">
+        <header className="flex h-16 items-center justify-between border-b bg-[#232122] px-4 sm:hidden">
           <div className="flex items-center gap-3">
             <Avatar>
               <AvatarImage src="/placeholder.svg" alt="User avatar" />
@@ -114,16 +114,14 @@ export default function Navigation({ children }: NavigationProps) {
         {/* Mobile Bottom Navigation */}
         <nav className="fixed bottom-0 left-0 right-0 z-50 flex h-14 items-center justify-around border-t bg-[#232122] lg:hidden">
           {menuItems.map((item) => (
-            <div key={item.href} className="p-1 w-full">
-              <Link
-                key={item.href}
-                href={item.href}
-                className="flex h-full w-full flex-col items-center justify-center gap-[2px] text-muted-foreground transition-colors hover:text-foreground"
-              >
-                <item.icon className="size-[22px] text-white" />
-                <span className="text-[12px] text-white">{item.label}</span>
-              </Link>
-            </div>
+            <Link
+              key={item.href}
+              href={item.href}
+              className="flex h-full w-full flex-col items-center justify-center gap-[2px] text-muted-foreground transition-colors hover:text-foreground"
+            >
+              <item.icon className="size-5 text-white" />
+              <span className="text-[12px] text-white">{item.label}</span>
+            </Link>
           ))}
         </nav>
       </SidebarInset>
