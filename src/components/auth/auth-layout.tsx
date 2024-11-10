@@ -9,12 +9,11 @@ import { AuthBackground } from "./background";
 import Image from "next/image";
 
 interface FormProps {
-  title: string;
   desc: string;
   children: React.ReactNode;
 }
 
-export function AuthFormLayout({ title, desc, children }: FormProps) {
+export function AuthFormLayout({ desc, children }: FormProps) {
   return (
     <>
       <AuthBackground />
@@ -28,7 +27,7 @@ export function AuthFormLayout({ title, desc, children }: FormProps) {
               height={140}
               className="mx-auto"
             />
-            <CardTitle className="text-2xl text-center">{title}</CardTitle>
+            <CardTitle className="text-2xl text-center">UNABccess</CardTitle>
             <CardDescription className="text-center">{desc}</CardDescription>
           </CardHeader>
           <CardContent>

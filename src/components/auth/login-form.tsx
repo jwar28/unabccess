@@ -40,10 +40,7 @@ export const LoginForm = () => {
   };
 
   return (
-    <AuthFormLayout
-      title="Iniciar sesión"
-      desc="Ingresa tu cuenta para acceder al campus"
-    >
+    <AuthFormLayout desc="Ingresa tu cuenta para acceder al campus">
       <form onSubmit={handleEmailLogin}>
         <div className="grid gap-4">
           <div className="grid gap-2">
@@ -79,7 +76,7 @@ export const LoginForm = () => {
         </div>
         <div className="mt-4 text-center text-sm">
           No tienes una cuenta?{" "}
-          <Link href="#" className="underline">
+          <Link href="/auth/register" className="underline">
             Registrate
           </Link>
         </div>

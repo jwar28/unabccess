@@ -14,6 +14,7 @@ export default function Home() {
     <>
       <h1>Welcome to the homepage!</h1>
       <p>{user.email}</p>
+      <p>{user.uid}</p>
       <Button onClick={logout}>Cerrar sesion</Button>
     </>
   );
