@@ -1,13 +1,6 @@
 "use client";
 
-import {
-	Bell,
-	Home,
-	Key,
-	Router,
-	Settings,
-	User as UserIcon,
-} from "lucide-react";
+import { Bell, Home, Key, Settings, User as UserIcon } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
