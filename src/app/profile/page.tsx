@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { logout } from "@/api/auth";
-import Layout from "@/components/layout/layout";
-import { ProfileCard } from "@/components/profile/profile-card";
-import { Button } from "@/components/ui/button";
-import { LogOut } from "lucide-react";
+import { logout } from '@/api/auth';
+import Layout from '@/components/layout/layout';
+import { ProfileCard } from '@/components/profile/profile-card';
+import { Button } from '@/components/ui/button';
+import { LogOut } from 'lucide-react';
 
 export default function ProfilePage() {
 	return (

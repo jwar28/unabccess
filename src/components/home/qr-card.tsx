@@ -1,11 +1,5 @@
-import { QrCode } from "lucide-react";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "../ui/card";
+import { QrCode } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 
 export const QrCard = () => {
 	return (
@@ -21,4 +15,4 @@ export const QrCard = () => {
 			</Card>
 		</>
 	);
-}
+};

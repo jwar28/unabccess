@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { AuthFormLayout } from "./auth-layout";
-import { signInWithEmail } from "@/api/auth";
-import useAuthStore from "@/hooks/useAuthStore";
-import { useRouter } from "next/navigation";
+import Link from 'next/link';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { AuthFormLayout } from './auth-layout';
+import { signInWithEmail } from '@/api/auth';
+import useAuthStore from '@/hooks/useAuthStore';
+import { useRouter } from 'next/navigation';
 
 export const LoginForm = () => {
-	const [email, setEmail] = useState<string>("");
-	const [password, setPassword] = useState<string>("");
+	const [email, setEmail] = useState<string>('');
+	const [password, setPassword] = useState<string>('');
 	const [error, setError] = useState<string | null>(null);
 	const { setUser, setToken, setLoading, loading } = useAuthStore();
 	const router = useRouter();
@@ -21,26 +21,25 @@ export const LoginForm = () => {
 		e.preventDefault();
 		setLoading(true);
 		setError(null);
-	
+
 		try {
 			const user = await signInWithEmail(email, password);
-	
+
 			if (user) {
 				setUser(user);
 				setToken(await user.getIdToken());
-				router.push("/");
-				console.log("Inicio de sesión exitoso:", user);
+				router.push('/');
+				console.log('Inicio de sesión exitoso:', user);
 			} else {
-				setError("Error en el inicio de sesión. Verifica tus credenciales.");
+				setError('Error en el inicio de sesión. Verifica tus credenciales.');
 			}
 		} catch (error) {
-			setError("Error en el inicio de sesión. Por favor, inténtalo de nuevo.");
+			setError('Error en el inicio de sesión. Por favor, inténtalo de nuevo.');
 			console.error(error);
 		} finally {
 			setLoading(false);
 		}
 	};
-	
 
 	return (
 		<AuthFormLayout desc="Ingresa tu cuenta para acceder al campus">
@@ -72,13 +71,13 @@ export const LoginForm = () => {
 							required
 						/>
 					</div>
-					{error && <p className="text-red-500 text-sm text-center">{error}</p>}
+					{error && <p className="text-center text-sm text-red-500">{error}</p>}
 					<Button type="submit" className="w-full" disabled={loading}>
-						{loading ? "Validando..." : "Iniciar sesión"}
+						{loading ? 'Validando...' : 'Iniciar sesión'}
 					</Button>
 				</div>
 				<div className="mt-4 text-center text-sm">
-					No tienes una cuenta?{" "}
+					No tienes una cuenta?{' '}
 					<Link href="/auth/register" className="underline">
 						Registrate
 					</Link>

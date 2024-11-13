@@ -1,7 +1,7 @@
-import { useUserStore } from "@/hooks/useUserStore";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Card, CardContent } from "../ui/card";
-import { getInitials } from "@/lib/utils";
+import { useUserStore } from '@/hooks/useUserStore';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { Card, CardContent } from '../ui/card';
+import { getInitials } from '@/lib/utils';
 
 export const ProfileCard = () => {
 	const { user } = useUserStore();
@@ -11,13 +11,8 @@ export const ProfileCard = () => {
 			<Card>
 				<CardContent className="flex items-center space-x-4 py-4">
 					<Avatar className="h-20 w-20">
-						<AvatarImage
-							src="/placeholder.svg?height=80&width=80"
-							alt="Profile picture"
-						/>
-						<AvatarFallback>
-							{getInitials(user.name, user.lastName)}
-						</AvatarFallback>
+						<AvatarImage src="/placeholder.svg?height=80&width=80" alt="Profile picture" />
+						<AvatarFallback>{getInitials(user.name, user.lastName)}</AvatarFallback>
 					</Avatar>
 					<div>
 						<h2 className="text-2xl font-bold">
@@ -30,4 +25,4 @@ export const ProfileCard = () => {
 			</Card>
 		</>
 	);
-}
+};

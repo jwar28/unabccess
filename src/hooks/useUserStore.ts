@@ -1,6 +1,6 @@
-import { User } from "@/types/user";
-import { create } from "zustand/react";
-import { persist, createJSONStorage } from "zustand/middleware";
+import { User } from '@/types/user';
+import { create } from 'zustand/react';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
 interface IUserStore {
 	user: User;
@@ -11,17 +11,17 @@ export const useUserStore = create<IUserStore>()(
 	persist(
 		(set) => ({
 			user: {
-				email: "",
-				name: "",
-				lastName: "",
-				studentId: "",
-				career: "",
+				email: '',
+				name: '',
+				lastName: '',
+				studentId: '',
+				career: '',
 			},
 			setUser: (user: User) => set({ user }),
 		}),
 		{
-			name: "user-storage",
+			name: 'user-storage',
 			storage: createJSONStorage(() => localStorage),
-		}
-	)
+		},
+	),
 );

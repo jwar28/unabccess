@@ -1,4 +1,4 @@
 export interface Space {
-	name: string
-	capacity: number
+	name: string;
+	capacity: number;
 }

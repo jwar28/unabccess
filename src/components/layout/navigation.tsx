@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { Bell, Home, Key, Settings, User as UserIcon } from "lucide-react";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Bell, Home, Key, Settings, User as UserIcon } from 'lucide-react';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
 	Sidebar,
 	SidebarContent,
@@ -15,19 +15,19 @@ import {
 	SidebarMenuItem,
 	SidebarProvider,
 	SidebarSeparator,
-} from "@/components/ui/sidebar";
-import { NavUser } from "./nav-user";
-import Image from "next/image";
-import { useUserStore } from "@/hooks/useUserStore";
-import { useRouter } from "next/navigation";
-import { cn, getInitials } from "@/lib/utils";
+} from '@/components/ui/sidebar';
+import { NavUser } from './nav-user';
+import Image from 'next/image';
+import { useUserStore } from '@/hooks/useUserStore';
+import { useRouter } from 'next/navigation';
+import { cn, getInitials } from '@/lib/utils';
 
 interface NavigationProps {
 	children: React.ReactNode;
 }
 
 export const Navigation = ({ children }: NavigationProps) => {
-	const [currentPath, setCurrentPath] = useState("");
+	const [currentPath, setCurrentPath] = useState('');
 	const { user } = useUserStore();
 	const router = useRouter();
 
@@ -38,39 +38,36 @@ export const Navigation = ({ children }: NavigationProps) => {
 	const menuItems = [
 		{
 			icon: Home,
-			href: "/",
-			label: "Home",
+			href: '/',
+			label: 'Home',
 		},
 		{
 			icon: Key,
-			href: "/access",
-			label: "Acceso",
+			href: '/access',
+			label: 'Acceso',
 		},
 		{
 			icon: UserIcon,
-			href: "/profile",
-			label: "Perfil",
+			href: '/profile',
+			label: 'Perfil',
 		},
 		{
 			icon: Settings,
-			href: "/settings",
-			label: "Ajustes",
+			href: '/settings',
+			label: 'Ajustes',
 		},
 	];
 
-	const desktopMenuItems = [
-		...menuItems,
-		{ icon: Bell, href: "/notifications", label: "Notificaciones" },
-	];
+	const desktopMenuItems = [...menuItems, { icon: Bell, href: '/notifications', label: 'Notificaciones' }];
 
 	return (
 		<SidebarProvider>
 			{/* Desktop Sidebar */}
-			<Sidebar className="hidden sm:flex w-64">
+			<Sidebar className="hidden w-64 sm:flex">
 				<SidebarHeader>
 					<Link className="flex items-center" href="/">
 						<Image src="/logo.png" alt="logo" width={60} height={20} />
-						<span className="px-4 text-2xl font-bold text">UNABccess</span>
+						<span className="text px-4 text-2xl font-bold">UNABccess</span>
 					</Link>
 				</SidebarHeader>
 				<SidebarSeparator />
@@ -78,23 +75,19 @@ export const Navigation = ({ children }: NavigationProps) => {
 					<SidebarMenu>
 						{desktopMenuItems.map((item) => (
 							<SidebarMenuItem key={item.href} className="w-60">
-							<SidebarMenuButton asChild>
+								<SidebarMenuButton asChild>
 									<Link
-											href={item.href}
-											className={cn(
-													"flex items-center gap-2 mx-2",
-													currentPath === item.href && "text-white bg-[#232122] hover:bg-current"
-											)}
+										href={item.href}
+										className={cn(
+											'mx-2 flex items-center gap-2',
+											currentPath === item.href && 'bg-[#232122] text-white hover:bg-current',
+										)}
 									>
-											<item.icon
-													className={cn("h-5 w-5", currentPath === item.href && "text-white")}
-											/>
-											<span className={cn("", currentPath === item.href && "text-white")}>
-													{item.label}
-											</span>
+										<item.icon className={cn('h-5 w-5', currentPath === item.href && 'text-white')} />
+										<span className={cn('', currentPath === item.href && 'text-white')}>{item.label}</span>
 									</Link>
-							</SidebarMenuButton>
-					</SidebarMenuItem>
+								</SidebarMenuButton>
+							</SidebarMenuItem>
 						))}
 					</SidebarMenu>
 					<SidebarFooter>
@@ -115,10 +108,7 @@ export const Navigation = ({ children }: NavigationProps) => {
 							{user.name} {user.lastName}
 						</span>
 					</div>
-					<button
-						className="rounded-full p-2 hover:bg-gray-800"
-						onClick={() => router.push("/notifications")}
-					>
+					<button className="rounded-full p-2 hover:bg-gray-800" onClick={() => router.push('/notifications')}>
 						<Bell className="h-5 w-5 text-white" />
 						<span className="sr-only">Notifications</span>
 					</button>
@@ -133,7 +123,7 @@ export const Navigation = ({ children }: NavigationProps) => {
 							key={item.href}
 							href={item.href}
 							className={`flex h-full w-full flex-col items-center justify-center gap-[2px] ${
-								currentPath === item.href ? "text-white" : "text-gray-400"
+								currentPath === item.href ? 'text-white' : 'text-gray-400'
 							} transition-colors hover:text-foreground`}
 						>
 							<item.icon className="h-5 w-5" />
@@ -144,4 +134,4 @@ export const Navigation = ({ children }: NavigationProps) => {
 			</SidebarInset>
 		</SidebarProvider>
 	);
-}
+};

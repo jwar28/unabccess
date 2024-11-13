@@ -1,11 +1,5 @@
-import { Button } from "../ui/button";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "../ui/card";
+import { Button } from '../ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 
 export const AboutCard = () => {
 	return (
@@ -14,13 +8,11 @@ export const AboutCard = () => {
 				<CardHeader>
 					<CardTitle>Acerca de</CardTitle>
 					<CardDescription>
-						Este proyecto, desarrollado por Javier Guerra, Santiago Áviles y
-						Lucas Porras, consiste en un software de gestión de reservas y
-						accesos a salones de la Universidad Autónoma de Bucaramanga (UNAB).
-						El objetivo principal de la aplicación es facilitar y optimizar el
-						proceso de asignación de espacios dentro de la universidad,
-						asegurando que los salones sean utilizados de manera eficiente y
-						organizada, de acuerdo con las necesidades de los usuarios.
+						Este proyecto, desarrollado por Javier Guerra, Santiago Áviles y Lucas Porras, consiste en un software de
+						gestión de reservas y accesos a salones de la Universidad Autónoma de Bucaramanga (UNAB). El objetivo
+						principal de la aplicación es facilitar y optimizar el proceso de asignación de espacios dentro de la
+						universidad, asegurando que los salones sean utilizados de manera eficiente y organizada, de acuerdo con las
+						necesidades de los usuarios.
 					</CardDescription>
 				</CardHeader>
 				<CardContent className="space-y-2">
@@ -36,4 +28,4 @@ export const AboutCard = () => {
 			</Card>
 		</>
 	);
-}
+};
