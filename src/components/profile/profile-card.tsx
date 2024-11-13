@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Card, CardContent } from "../ui/card";
 import { getInitials } from "@/lib/utils";
 
-export default function ProfileCard() {
+export const ProfileCard = () => {
 	const { user } = useUserStore();
 
 	return (

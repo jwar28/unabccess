@@ -7,7 +7,7 @@ import {
 	CardTitle,
 } from "../ui/card";
 
-export default function QrCard() {
+export const QrCard = () => {
 	return (
 		<>
 			<Card>

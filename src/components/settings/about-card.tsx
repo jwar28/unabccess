@@ -7,7 +7,7 @@ import {
 	CardTitle,
 } from "../ui/card";
 
-export default function AboutCard() {
+export const AboutCard = () => {
 	return (
 		<>
 			<Card>

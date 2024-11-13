@@ -16,11 +16,11 @@ interface Notification {
 	read: boolean;
 }
 
-export default function NotificationCard({
+export const NotificationCard = ({
 	notification,
 }: {
 	notification: Notification;
-}) {
+}) => {
 	return (
 		<>
 			<Card

@@ -8,7 +8,7 @@ const accessibleAreas = [
 	{ name: "Centro de estudios", status: "Cerrado", accessUntil: "12:00 AM" },
 ];
 
-export default function AreasCard() {
+export const AreasCard = () => {
 	return (
 		<>
 			<Card>

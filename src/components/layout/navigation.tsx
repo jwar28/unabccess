@@ -26,7 +26,7 @@ interface NavigationProps {
 	children: React.ReactNode;
 }
 
-export default function Navigation({ children }: NavigationProps) {
+export const Navigation = ({ children }: NavigationProps) => {
 	const [currentPath, setCurrentPath] = useState("");
 	const { user } = useUserStore();
 	const router = useRouter();
