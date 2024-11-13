@@ -20,6 +20,7 @@ import { NavUser } from "./nav-user";
 import Image from "next/image";
 import { useUserStore } from "@/hooks/useUserStore";
 import { useRouter } from "next/navigation";
+import { getInitials } from "@/lib/utils";
 
 interface NavigationProps {
 	children: React.ReactNode;
@@ -65,7 +66,7 @@ export default function Navigation({ children }: NavigationProps) {
 	return (
 		<SidebarProvider>
 			{/* Desktop Sidebar */}
-			<Sidebar className="hidden lg:flex w-64">
+			<Sidebar className="hidden sm:flex w-64">
 				<SidebarHeader>
 					<Link className="flex items-center" href="/">
 						<Image src="/logo.png" alt="logo" width={60} height={20} />
@@ -76,11 +77,11 @@ export default function Navigation({ children }: NavigationProps) {
 				<SidebarContent className="mt-3 flex justify-between">
 					<SidebarMenu>
 						{desktopMenuItems.map((item) => (
-							<SidebarMenuItem key={item.href}>
+							<SidebarMenuItem key={item.href} className="w-60">
 								<SidebarMenuButton asChild>
 									<Link
 										href={item.href}
-										className={`flex items-center gap-2 mx-2 w-60	 ${
+										className={`flex items-center gap-2 mx-2 hover:bg-[#232122] hover:text-white 	${
 											currentPath === item.href
 												? "text-white bg-[#232122] hover:bg-[#232122] hover:text-white"
 												: ""
@@ -105,10 +106,10 @@ export default function Navigation({ children }: NavigationProps) {
 					<div className="flex items-center gap-3">
 						<Avatar>
 							<AvatarImage src="/placeholder.svg" alt="User avatar" />
-							<AvatarFallback>JG</AvatarFallback>
+							<AvatarFallback>{getInitials(user.name, user.lastName)}</AvatarFallback>
 						</Avatar>
 						<span className="text-sm font-medium text-white">
-							Javier Guerra
+							{user.name} {user.lastName}
 						</span>
 					</div>
 					<button
