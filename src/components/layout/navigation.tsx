@@ -20,7 +20,7 @@ import { NavUser } from "./nav-user";
 import Image from "next/image";
 import { useUserStore } from "@/hooks/useUserStore";
 import { useRouter } from "next/navigation";
-import { getInitials } from "@/lib/utils";
+import { cn, getInitials } from "@/lib/utils";
 
 interface NavigationProps {
 	children: React.ReactNode;
@@ -78,20 +78,23 @@ export default function Navigation({ children }: NavigationProps) {
 					<SidebarMenu>
 						{desktopMenuItems.map((item) => (
 							<SidebarMenuItem key={item.href} className="w-60">
-								<SidebarMenuButton asChild>
+							<SidebarMenuButton asChild>
 									<Link
-										href={item.href}
-										className={`flex items-center gap-2 mx-2 hover:bg-[#232122] hover:text-white 	${
-											currentPath === item.href
-												? "text-white bg-[#232122] hover:bg-[#232122] hover:text-white"
-												: ""
-										}`}
+											href={item.href}
+											className={cn(
+													"flex items-center gap-2 mx-2",
+													currentPath === item.href && "text-white bg-[#232122] hover:bg-current"
+											)}
 									>
-										<item.icon className="h-5 w-5" />
-										<span>{item.label}</span>
+											<item.icon
+													className={cn("h-5 w-5", currentPath === item.href && "text-white")}
+											/>
+											<span className={cn("", currentPath === item.href && "text-white")}>
+													{item.label}
+											</span>
 									</Link>
-								</SidebarMenuButton>
-							</SidebarMenuItem>
+							</SidebarMenuButton>
+					</SidebarMenuItem>
 						))}
 					</SidebarMenu>
 					<SidebarFooter>
