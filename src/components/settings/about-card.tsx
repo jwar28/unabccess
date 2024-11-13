@@ -14,7 +14,7 @@ export default function AboutCard() {
 				<CardHeader>
 					<CardTitle>Acerca de</CardTitle>
 					<CardDescription>
-						ste proyecto, desarrollado por Javier Guerra, Santiago Áviles y
+						Este proyecto, desarrollado por Javier Guerra, Santiago Áviles y
 						Lucas Porras, consiste en un software de gestión de reservas y
 						accesos a salones de la Universidad Autónoma de Bucaramanga (UNAB).
 						El objetivo principal de la aplicación es facilitar y optimizar el
