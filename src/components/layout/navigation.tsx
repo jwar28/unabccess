@@ -1,8 +1,12 @@
 'use client';
 
+import { useUserStore } from '@/hooks/useUserStore';
 import { Bell, Home, Key, Settings, User as UserIcon } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
 	Sidebar,
@@ -16,11 +20,10 @@ import {
 	SidebarProvider,
 	SidebarSeparator,
 } from '@/components/ui/sidebar';
-import { NavUser } from './nav-user';
-import Image from 'next/image';
-import { useUserStore } from '@/hooks/useUserStore';
-import { useRouter } from 'next/navigation';
+
 import { cn, getInitials } from '@/lib/utils';
+
+import { NavUser } from './nav-user';
 
 interface NavigationProps {
 	children: React.ReactNode;

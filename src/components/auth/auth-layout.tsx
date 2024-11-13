@@ -1,6 +1,8 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { AuthBackground } from './background';
 import Image from 'next/image';
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+
+import { AuthBackground } from './background';
 
 interface FormProps {
 	desc: string;

@@ -1,6 +1,7 @@
-import { db } from '@/lib/firebaseConfig';
 import { User } from '@/types/user';
 import { collection, doc, getDoc, setDoc } from 'firebase/firestore';
+
+import { db } from '@/lib/firebaseConfig';
 
 const usersRef = collection(db, 'users');
 

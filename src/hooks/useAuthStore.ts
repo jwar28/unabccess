@@ -1,5 +1,5 @@
-import { create } from 'zustand';
 import { User } from 'firebase/auth';
+import { create } from 'zustand';
 
 interface IAuth {
 	user: User | null;

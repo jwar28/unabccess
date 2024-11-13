@@ -1,6 +1,10 @@
 'use client';
 
+import { logout } from '@/api/auth';
+import { User } from '@/types/user';
 import { Bell, ChevronsUpDown, LogOut, User as UserIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import {
 	DropdownMenu,
@@ -12,10 +16,8 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar';
-import { logout } from '@/api/auth';
-import { User } from '@/types/user';
+
 import { getInitials } from '@/lib/utils';
-import { useRouter } from 'next/navigation';
 
 export function NavUser({ user }: { user: User }) {
 	const { isMobile } = useSidebar();

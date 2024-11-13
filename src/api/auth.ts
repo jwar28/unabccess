@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useUserStore } from '@/hooks/useUserStore';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, User } from 'firebase/auth';
+
 import { auth } from '../lib/firebaseConfig';
 import { fetchUserData, setUserData } from './userApi';
-import { useUserStore } from '@/hooks/useUserStore';
 
 /**
  * Log in with email and password.

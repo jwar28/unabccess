@@ -1,6 +1,6 @@
 import { User } from '@/types/user';
-import { create } from 'zustand/react';
 import { persist, createJSONStorage } from 'zustand/middleware';
+import { create } from 'zustand/react';
 
 interface IUserStore {
 	user: User;

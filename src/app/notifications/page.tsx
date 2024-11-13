@@ -1,8 +1,9 @@
+import { Check, X } from 'lucide-react';
+
 import Layout from '@/components/layout/layout';
 import { NotificationCard } from '@/components/notifications/notification-card';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Check, X } from 'lucide-react';
 
 const notifications = [
 	{

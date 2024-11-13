@@ -1,10 +1,12 @@
 'use client';
 
 import { onAuthStateChanged } from 'firebase/auth';
-import useAuthStore from './useAuthStore';
-import { useEffect } from 'react';
-import { auth } from '@/lib/firebaseConfig';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+
+import { auth } from '@/lib/firebaseConfig';
+
+import useAuthStore from './useAuthStore';
 
 const useAuth = () => {
 	const router = useRouter();

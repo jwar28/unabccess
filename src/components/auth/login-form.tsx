@@ -1,14 +1,16 @@
 'use client';
 
+import { signInWithEmail } from '@/api/auth';
+import useAuthStore from '@/hooks/useAuthStore';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+
 import { AuthFormLayout } from './auth-layout';
-import { signInWithEmail } from '@/api/auth';
-import useAuthStore from '@/hooks/useAuthStore';
-import { useRouter } from 'next/navigation';
 
 export const LoginForm = () => {
 	const [email, setEmail] = useState<string>('');

@@ -1,7 +1,9 @@
 import { useUserStore } from '@/hooks/useUserStore';
+
+import { getInitials } from '@/lib/utils';
+
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Card, CardContent } from '../ui/card';
-import { getInitials } from '@/lib/utils';
 
 export const ProfileCard = () => {
 	const { user } = useUserStore();
