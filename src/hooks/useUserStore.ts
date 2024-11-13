@@ -14,7 +14,7 @@ export const useUserStore = create<IUserStore>()(
 				email: "",
 				name: "",
 				lastName: "",
-				userId: "",
+				studentId: "",
 				career: "",
 			},
 			setUser: (user: User) => set({ user }),

@@ -1,17 +1,36 @@
-import { useUserStore } from "@/hooks/useUserStore";
-import { getDatabase, ref, child, get } from "firebase/database";
+import { db } from "@/lib/firebaseConfig";
+import { User } from "@/types/user";
+import { collection , doc, getDoc, setDoc } from "firebase/firestore";
 
-export const fetchUserData = async (userId: string) => {
-	const dbRef = ref(getDatabase());
-	try {
-		const snapshot = await get(child(dbRef, `users/${userId}`));
-		if (snapshot.exists()) {
-			const userData = snapshot.val();
-			useUserStore.getState().setUser(userData);
-		} else {
-			console.log("No data available");
-		}
-	} catch (error) {
-		console.error("Error fetching users:", error);
-	}
-};
+const usersRef = collection(db, "users");
+
+export async function fetchUserData(uid: string) {
+  try {
+    const userDocRef = doc(usersRef, uid);
+    const userDoc = await getDoc(userDocRef);
+
+    if (userDoc.exists()) {
+      return userDoc.data() as User;
+    } else {
+      console.log("No such user!");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    return null;
+  }
+}
+
+export async function setUserData(uid: string, userData: User) {
+  try {
+    const userDocRef = doc(usersRef, uid); 
+    await setDoc(userDocRef, userData, { merge: true });
+
+    console.log("User data successfully written!");
+    return true;
+  } catch (error) {
+    console.error("Error writing user data:", error);
+    return false;
+  }
+}
+

@@ -2,6 +2,6 @@ export interface User {
 	email: string;
 	name: string;
 	lastName: string;
-	userId: string;
+	studentId: string;
 	career: string;
 }

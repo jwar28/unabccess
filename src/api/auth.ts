@@ -5,9 +5,9 @@ import {
 	signOut,
 	User,
 } from "firebase/auth";
-import { getDatabase, ref, set } from "firebase/database";
 import { auth } from "../lib/firebaseConfig";
-import { fetchUserData } from "./userApi";
+import { fetchUserData, setUserData } from "./userApi";
+import { useUserStore } from "@/hooks/useUserStore";
 
 /**
  * Log in with email and password.
@@ -21,7 +21,13 @@ export const signInWithEmail = async (
 ): Promise<User | null> => {
 	try {
 		const result = await signInWithEmailAndPassword(auth, email, password);
-		fetchUserData(result.user.uid);
+		fetchUserData(result.user.uid).then((userData) => {
+			if (userData) {
+				useUserStore.getState().setUser(userData);
+			} else {
+				console.error("Error fetching user data");
+			}
+		});
 		return result.user;
 	} catch (error) {
 		console.error("Log in error:", error);
@@ -29,26 +35,9 @@ export const signInWithEmail = async (
 	}
 };
 
-const writeUserData = (
-	UUID: string,
-	userID: string,
-	name: string,
-	lastName: string,
-	email: string,
-	career: string
-) => {
-	const db = getDatabase();
-	set(ref(db, "users/" + UUID), {
-		userId: userID,
-		name: name,
-		lastName: lastName,
-		email: email,
-		career: career,
-	});
-};
 
-export const createUser = async (
-	userID: string,
+export const registerUser = async (
+	studentId: string,
 	name: string,
 	lastName: string,
 	email: string,
@@ -61,9 +50,15 @@ export const createUser = async (
 			email,
 			password
 		);
-		const user = userCredential.user;
-		writeUserData(user.uid, userID, name, lastName, email, career);
-		return user;
+		const userData = { email, name, lastName, studentId, career };
+		setUserData(userCredential.user.uid, userData).then(success => {
+			if (success) {
+				console.log("Datos del usuario guardados exitosamente.");
+			} else {
+				console.log("Hubo un error al guardar los datos del usuario.");
+			}
+		});
+		return userData;
 	} catch (error: any) {
 		console.error("Error al crear el usuario:", error.message);
 		throw new Error(error.message);

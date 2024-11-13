@@ -23,7 +23,7 @@ export default function ProfileCard() {
 						<h2 className="text-2xl font-bold">
 							{user.name} {user.lastName}
 						</h2>
-						<p className="text-muted-foreground">ID: {user.userId}</p>
+						<p className="text-muted-foreground">ID: {user.studentId}</p>
 						<p className="text-muted-foreground">{user.career}</p>
 					</div>
 				</CardContent>

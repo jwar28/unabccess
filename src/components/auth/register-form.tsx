@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AuthFormLayout } from "./auth-layout";
-import { createUser } from "@/api/auth";
+import { registerUser } from "@/api/auth";
 import { useRouter } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 
@@ -31,7 +31,7 @@ export const RegisterForm = () => {
         setError("Porfavor llena todos los campos.");
         return;
       }
-      const user = await createUser(
+      const user = await registerUser(
         userId,
         name,
         lastName,
