@@ -4,7 +4,7 @@ import { collection , doc, getDoc, setDoc } from "firebase/firestore";
 
 const usersRef = collection(db, "users");
 
-export async function fetchUserData(uid: string) {
+export const fetchUserData = async(uid: string) => {
   try {
     const userDocRef = doc(usersRef, uid);
     const userDoc = await getDoc(userDocRef);
@@ -21,7 +21,7 @@ export async function fetchUserData(uid: string) {
   }
 }
 
-export async function setUserData(uid: string, userData: User) {
+export const setUserData = async(uid: string, userData: User) => {
   try {
     const userDocRef = doc(usersRef, uid); 
     await setDoc(userDocRef, userData, { merge: true });

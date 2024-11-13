@@ -22,35 +22,30 @@ export const RegisterForm = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleUserCreation = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    setLoading(true);
-
-    try {
-      if (!email || !password || !name || !lastName || !userId || !career) {
-        setError("Porfavor llena todos los campos.");
-        return;
-      }
-      const user = await registerUser(
-        userId,
-        name,
-        lastName,
-        email,
-        password,
-        career
-      );
-      if (user) {
-        console.log("User created", user);
-        router.push("/auth");
-      } else {
-        setError("Error creando usuario. Porfavor intenta de nuevo.");
-      }
-    } catch (error) {
-      setError((error as any).message);
-    } finally {
-      setLoading(false);
-    }
-  };
+		e.preventDefault();
+		setError(null);
+		setLoading(true);
+	
+		if (!email || !password || !name || !lastName || !userId || !career) {
+			setError("Por favor llena todos los campos.");
+			setLoading(false);
+			return;
+		}
+	
+		try {
+			const user = await registerUser(userId, name, lastName, email, password, career);
+			if (user) {
+				console.log("User created", user);
+				router.push("/auth");
+			} else {
+				setError("Error creando usuario. Por favor intenta de nuevo.");
+			}
+		} catch (error) {
+			setError((error as Error).message);
+		} finally {
+			setLoading(false);
+		}
+	};
 
   return (
     <AuthFormLayout desc="Crea tu cuenta con estos sencillos datos">

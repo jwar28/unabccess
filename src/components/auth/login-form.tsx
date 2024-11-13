@@ -21,14 +21,15 @@ export const LoginForm = () => {
 		e.preventDefault();
 		setLoading(true);
 		setError(null);
-
+	
 		try {
 			const user = await signInWithEmail(email, password);
+	
 			if (user) {
-				console.log("Inicio de sesión exitoso:", user);
 				setUser(user);
-				setToken(await user?.getIdToken());
+				setToken(await user.getIdToken());
 				router.push("/");
+				console.log("Inicio de sesión exitoso:", user);
 			} else {
 				setError("Error en el inicio de sesión. Verifica tus credenciales.");
 			}
@@ -39,6 +40,7 @@ export const LoginForm = () => {
 			setLoading(false);
 		}
 	};
+	
 
 	return (
 		<AuthFormLayout desc="Ingresa tu cuenta para acceder al campus">
