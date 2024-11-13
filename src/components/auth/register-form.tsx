@@ -9,6 +9,8 @@ import { AuthFormLayout } from "./auth-layout";
 import { registerUser } from "@/api/auth";
 import { useRouter } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { Combobox } from "../ui/combobox";
+import { careers } from "@/lib/careers";
 
 export const RegisterForm = () => {
   const router = useRouter();
@@ -122,17 +124,17 @@ export const RegisterForm = () => {
                 />
               </div>
               <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Carrera</Label>
-                </div>
-                <Input
-                  id="career"
-                  type="text"
-                  value={career}
-                  onChange={(e) => setCareer(e.target.value)}
-                  required
-                />
-              </div>
+								<div className="flex items-center">
+									<Label htmlFor="career">Carrera</Label>
+								</div>
+								
+								<Combobox
+								options={careers}
+								value={career}
+								onChange={setCareer}
+								placeholder="carrera"
+								/>
+							</div>
             </div>
           </TabsContent>
         </Tabs>
