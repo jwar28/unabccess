@@ -18,11 +18,10 @@ export const signInWithEmail = async (email: string, password: string): Promise<
 
 		if (userData) {
 			useUserStore.getState().setUser(userData);
-		} else {
-			console.error('Error fetching user data');
+			return result.user;
 		}
 
-		return result.user;
+		return null;
 	} catch (error) {
 		console.error('Log in error:', error);
 		return null;

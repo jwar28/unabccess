@@ -1,27 +1,12 @@
 import { User } from '@/types/user';
-import { persist, createJSONStorage } from 'zustand/middleware';
-import { create } from 'zustand/react';
+import { create } from 'zustand';
 
 interface IUserStore {
-	user: User;
+	user: User | null;
 	setUser: (user: User) => void;
 }
 
-export const useUserStore = create<IUserStore>()(
-	persist(
-		(set) => ({
-			user: {
-				email: '',
-				name: '',
-				lastName: '',
-				studentId: '',
-				career: '',
-			},
-			setUser: (user: User) => set({ user }),
-		}),
-		{
-			name: 'user-storage',
-			storage: createJSONStorage(() => localStorage),
-		},
-	),
-);
+export const useUserStore = create<IUserStore>((set) => ({
+	user: null,
+	setUser: (user: User) => set({ user }),
+}));

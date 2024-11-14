@@ -1,5 +1,6 @@
-import { useReservations } from '@/hooks/useReservations';
+import { useReservationsStore } from '@/hooks/useReservationStore';
 import Link from 'next/link';
+import { useEffect } from 'react';
 
 import { isReservationActive } from '@/lib/utils';
 
@@ -7,7 +8,13 @@ import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 
 export const AreasCard = () => {
-	const { reservations, loading, error } = useReservations();
+	const { reservations, loading, error, fetchReservations } = useReservationsStore();
+
+	useEffect(() => {
+		if (!reservations) {
+			fetchReservations();
+		}
+	}, [reservations, fetchReservations]);
 
 	if (loading) {
 		return (
@@ -41,10 +48,10 @@ export const AreasCard = () => {
 				<CardTitle>Tus reservas</CardTitle>
 			</CardHeader>
 			<CardContent className="p-0">
-				{reservations.length === 0 ? (
+				{reservations && reservations.length === 0 ? (
 					<p className="p-4 text-center">No tienes reservas activas.</p>
 				) : (
-					reservations.map((reservation) => (
+					reservations?.map((reservation) => (
 						<div key={reservation.id} className="flex items-center justify-between border-b p-4 last:border-b-0">
 							<div>
 								<p className="font-medium">{reservation.reservationLocation.name}</p>

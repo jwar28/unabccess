@@ -1,5 +1,6 @@
 'use client';
 
+import { fetchUserData } from '@/api/user-api';
 import { useUserStore } from '@/hooks/useUserStore';
 import { Bell, Home, Key, Settings, User as UserIcon } from 'lucide-react';
 import Image from 'next/image';
@@ -27,16 +28,29 @@ import { NavUser } from './nav-user';
 
 interface NavigationProps {
 	children: React.ReactNode;
+	uid: string;
 }
 
-export const Navigation = ({ children }: NavigationProps) => {
+export const Navigation = ({ children, uid }: NavigationProps) => {
 	const [currentPath, setCurrentPath] = useState('');
-	const { user } = useUserStore();
+	const { user, setUser } = useUserStore();
 	const router = useRouter();
 
 	useEffect(() => {
+		const loadUserData = async () => {
+			const fetchedUser = await fetchUserData(uid);
+			if (fetchedUser) {
+				setUser(fetchedUser);
+			}
+		};
+
+		loadUserData();
 		setCurrentPath(window.location.pathname);
-	}, []);
+	}, [setUser, uid]);
+
+	if (!user) {
+		return <div>Cargando usuario...</div>;
+	}
 
 	const menuItems = [
 		{

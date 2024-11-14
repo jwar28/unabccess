@@ -1,9 +1,9 @@
 'use client';
 
-import { useSpaces } from '@/hooks/useSpaces';
+import { useSpacesStore } from '@/hooks/useSpacesStore';
 import { ArrowLeft, Calendar, Clock } from 'lucide-react';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -19,7 +19,14 @@ export const RequestAccessForm = () => {
 	const [startTime, setStartTime] = useState('');
 	const [endTime, setEndTime] = useState('');
 
-	const spaces = useSpaces();
+	// Usamos la store para obtener los espacios
+	const { spaces, loading, error, fetchSpaces } = useSpacesStore();
+
+	useEffect(() => {
+		if (spaces.length === 0) {
+			fetchSpaces();
+		}
+	}, [spaces, fetchSpaces]);
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
@@ -39,6 +46,7 @@ export const RequestAccessForm = () => {
 
 			<main className="flex-1 max-sm:pb-4">
 				<form onSubmit={handleSubmit} className="space-y-4">
+					{/* Selección de área */}
 					<Card>
 						<CardHeader>
 							<CardTitle>Seleccionar área</CardTitle>
@@ -50,16 +58,27 @@ export const RequestAccessForm = () => {
 									<SelectValue placeholder="Seleccionar área" />
 								</SelectTrigger>
 								<SelectContent>
-									{spaces.map((space) => (
-										<SelectItem key={space.id} value={space.name}>
-											{space.name} (Capacidad: {space.capacity})
+									{loading ? (
+										<SelectItem value="loading" disabled>
+											Cargando...
 										</SelectItem>
-									))}
+									) : error ? (
+										<SelectItem value="loading" disabled>
+											{error}
+										</SelectItem>
+									) : (
+										spaces.map((space) => (
+											<SelectItem key={space.id} value={space.name}>
+												{space.name} (Capacidad: {space.capacity})
+											</SelectItem>
+										))
+									)}
 								</SelectContent>
 							</Select>
 						</CardContent>
 					</Card>
 
+					{/* Periodo de acceso */}
 					<Card>
 						<CardHeader>
 							<CardTitle>Periodo de acceso</CardTitle>
@@ -125,6 +144,7 @@ export const RequestAccessForm = () => {
 						</CardContent>
 					</Card>
 
+					{/* Razón de acceso */}
 					<Card>
 						<CardHeader>
 							<CardTitle>Razón de acceso</CardTitle>

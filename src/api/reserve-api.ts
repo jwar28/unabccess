@@ -1,3 +1,4 @@
+import { Reservation } from '@/types/reservation';
 import { collection, getDocs, Timestamp } from 'firebase/firestore';
 
 import { db } from '@/lib/firebaseConfig';
@@ -30,7 +31,7 @@ export const getReservations = async () => {
 			}),
 		);
 
-		return reservations;
+		return reservations as Reservation[];
 	} catch (error) {
 		console.error('Error al obtener las reservas:', error);
 		return [];
