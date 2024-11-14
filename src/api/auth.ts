@@ -3,7 +3,7 @@ import { useUserStore } from '@/hooks/useUserStore';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, User } from 'firebase/auth';
 
 import { auth } from '../lib/firebaseConfig';
-import { fetchUserData, setUserData } from './userApi';
+import { fetchUserData, setUserData } from './user-api';
 
 /**
  * Log in with email and password.

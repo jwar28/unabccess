@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 
@@ -27,9 +29,11 @@ export const AreasCard = () => {
 							</span>
 						</div>
 					))}
-					<Button variant="ghost" className="w-full py-5">
-						Mostrar todos
-					</Button>
+					<Link href="/access">
+						<Button variant="ghost" className="w-full py-5">
+							Mostrar todos
+						</Button>
+					</Link>
 				</CardContent>
 			</Card>
 		</>
