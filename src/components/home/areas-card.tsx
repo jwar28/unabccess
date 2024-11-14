@@ -7,14 +7,14 @@ import { isReservationActive } from '@/lib/utils';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 
-export const AreasCard = () => {
+export const AreasCard = ({ userId }: { userId: string }) => {
 	const { reservations, loading, error, fetchReservations } = useReservationsStore();
 
 	useEffect(() => {
 		if (!reservations) {
-			fetchReservations();
+			fetchReservations(userId);
 		}
-	}, [reservations, fetchReservations]);
+	}, [reservations, fetchReservations, userId]);
 
 	if (loading) {
 		return (
@@ -52,26 +52,30 @@ export const AreasCard = () => {
 					<p className="p-4 text-center">No tienes reservas activas.</p>
 				) : (
 					reservations?.map((reservation) => (
-						<div key={reservation.id} className="flex items-center justify-between border-b p-4 last:border-b-0">
-							<div>
-								<p className="font-medium">{reservation.reservationLocation.name}</p>
-								<p className="text-muted-foreground text-sm">Hasta {reservation.finishDate.toLocaleString()}</p>
+						<>
+							<div key={reservation.id} className="flex items-center justify-between border-b p-4 last:border-b-0">
+								<div>
+									<p className="font-medium">{reservation.reservationLocation.name}</p>
+									<p className="text-muted-foreground text-sm">Hasta {reservation.finishDate.toLocaleString()}</p>
+								</div>
+								<span
+									className={`text-sm ${
+										isReservationActive(reservation.startDate, reservation.finishDate)
+											? 'text-green-500'
+											: 'text-red-500'
+									}`}
+								>
+									{isReservationActive(reservation.startDate, reservation.finishDate) ? 'Abierto' : 'Cerrado'}
+								</span>
 							</div>
-							<span
-								className={`text-sm ${
-									isReservationActive(reservation.startDate, reservation.finishDate) ? 'text-green-500' : 'text-red-500'
-								}`}
-							>
-								{isReservationActive(reservation.startDate, reservation.finishDate) ? 'Abierto' : 'Cerrado'}
-							</span>
-						</div>
+							<Link href="/access">
+								<Button variant="ghost" className="w-full py-5">
+									Mostrar todos
+								</Button>
+							</Link>
+						</>
 					))
 				)}
-				<Link href="/access">
-					<Button variant="ghost" className="w-full py-5">
-						Mostrar todos
-					</Button>
-				</Link>
 			</CardContent>
 		</Card>
 	);

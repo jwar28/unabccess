@@ -1,22 +1,24 @@
 import { Reservation } from '@/types/reservation';
-import { collection, getDocs, Timestamp } from 'firebase/firestore';
+import { collection, getDocs, query, Timestamp, where, getDoc, doc } from 'firebase/firestore';
 
 import { db } from '@/lib/firebaseConfig';
 
 import { getSpaceById } from './spaces-api';
-import { fetchUserData } from './user-api';
 
-export const getReservations = async () => {
+export const getReservationsByUser = async (userUid: string) => {
 	const reservationsCollection = collection(db, 'reservations');
 
 	try {
-		const querySnapshot = await getDocs(reservationsCollection);
+		const q = query(reservationsCollection, where('reservedBy', '==', doc(db, `/users/${userUid}`)));
+
+		const querySnapshot = await getDocs(q);
 
 		const reservations = await Promise.all(
 			querySnapshot.docs.map(async (docSnapshot) => {
 				const reservationData = docSnapshot.data();
-
-				const reservedBy = await fetchUserData(reservationData.reservedBy.id);
+				const reservedByRef = reservationData.reservedBy;
+				const reservedByDoc = await getDoc(reservedByRef);
+				const reservedBy = reservedByDoc.exists() ? reservedByDoc.data() : null;
 				const reservationLocation = await getSpaceById(reservationData.reservationLocation.id);
 
 				return {
@@ -33,7 +35,7 @@ export const getReservations = async () => {
 
 		return reservations as Reservation[];
 	} catch (error) {
-		console.error('Error al obtener las reservas:', error);
+		console.error('Error al obtener las reservas del usuario:', error);
 		return [];
 	}
 };

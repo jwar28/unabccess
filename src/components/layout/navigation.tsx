@@ -96,8 +96,8 @@ export const Navigation = ({ children, uid }: NavigationProps) => {
 									<Link
 										href={item.href}
 										className={cn(
-											'mx-2 flex items-center gap-2',
-											currentPath === item.href && 'bg-[#232122] text-white hover:bg-current',
+											'mx-2 flex items-center gap-2 transition-colors',
+											currentPath === item.href ? 'bg-[#232122] text-white hover:bg-[#232122]' : 'hover:bg-gray-100',
 										)}
 									>
 										<item.icon className={cn('h-5 w-5', currentPath === item.href && 'text-white')} />
@@ -139,9 +139,9 @@ export const Navigation = ({ children, uid }: NavigationProps) => {
 						<Link
 							key={item.href}
 							href={item.href}
-							className={`flex h-full w-full flex-col items-center justify-center gap-[2px] ${
-								currentPath === item.href ? 'text-white' : 'text-gray-400'
-							} transition-colors hover:text-foreground`}
+							className={`flex h-full w-full flex-col items-center justify-center gap-[2px] transition-colors ${
+								currentPath === item.href ? 'text-white hover:text-white' : 'text-gray-400 hover:text-foreground'
+							}`}
 						>
 							<item.icon className="h-5 w-5" />
 							<span className="text-[12px]">{item.label}</span>
