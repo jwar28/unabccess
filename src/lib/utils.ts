@@ -12,20 +12,21 @@ export const getInitials = (name: string, lastName: string): string => {
 	return `${inicialNombre}${inicialApellido}`;
 };
 
-export const isSpaceOpen = (openTime: Date, closeTime: Date): boolean => {
+export const isReservationActive = (startDate: any, finishDate: any): boolean => {
+	const start = startDate.toDate ? startDate.toDate() : new Date(startDate);
+	const finish = finishDate.toDate ? finishDate.toDate() : new Date(finishDate);
+
 	const now = new Date();
 
-	const currentHour = now.getHours();
-	const currentMinute = now.getMinutes();
+	const currentTimeInMinutes = now.getHours() * 60 + now.getMinutes();
 
-	const openHour = openTime.getHours();
-	const openMinute = openTime.getMinutes();
-	const closeHour = closeTime.getHours();
-	const closeMinute = closeTime.getMinutes();
+	const startHour = start.getHours();
+	const startMinute = start.getMinutes();
+	const startTimeInMinutes = startHour * 60 + startMinute;
 
-	const currentTimeInMinutes = currentHour * 60 + currentMinute;
-	const openTimeInMinutes = openHour * 60 + openMinute;
-	const closeTimeInMinutes = closeHour * 60 + closeMinute;
+	const finishHour = finish.getHours();
+	const finishMinute = finish.getMinutes();
+	const finishTimeInMinutes = finishHour * 60 + finishMinute;
 
-	return currentTimeInMinutes >= openTimeInMinutes && currentTimeInMinutes <= closeTimeInMinutes;
+	return currentTimeInMinutes >= startTimeInMinutes && currentTimeInMinutes <= finishTimeInMinutes;
 };

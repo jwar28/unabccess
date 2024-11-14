@@ -1,10 +1,11 @@
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, Timestamp } from 'firebase/firestore';
+
+import { db } from '@/lib/firebaseConfig';
 
 import { getSpaceById } from './spaces-api';
 import { fetchUserData } from './user-api';
 
 export const getReservations = async () => {
-	const db = getFirestore();
 	const reservationsCollection = collection(db, 'reservations');
 
 	try {
@@ -21,8 +22,9 @@ export const getReservations = async () => {
 					id: docSnapshot.id,
 					reservedBy,
 					reservationLocation,
-					startDate: reservationData.startDate.toDate(),
-					finishDate: reservationData.finishDate.toDate(),
+					startDate: reservationData.startDate instanceof Timestamp ? reservationData.startDate.toDate() : new Date(),
+					finishDate:
+						reservationData.finishDate instanceof Timestamp ? reservationData.finishDate.toDate() : new Date(),
 					requestReason: reservationData.requestReason,
 				};
 			}),

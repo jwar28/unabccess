@@ -1,41 +1,71 @@
+import { useReservations } from '@/hooks/useReservations';
 import Link from 'next/link';
+
+import { isReservationActive } from '@/lib/utils';
 
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 
-const accessibleAreas = [
-	{ name: 'Biblioteca', status: 'Abierto', accessUntil: '10:00 PM' },
-	{ name: 'Laboratorio', status: 'Cerrado', accessUntil: '9:00 AM Mañana' },
-	{ name: 'Gimnasio', status: 'Abierto', accessUntil: '11:00 PM' },
-	{ name: 'Centro de estudios', status: 'Cerrado', accessUntil: '12:00 AM' },
-];
-
 export const AreasCard = () => {
-	return (
-		<>
+	const { reservations, loading, error } = useReservations();
+
+	if (loading) {
+		return (
 			<Card>
 				<CardHeader className="pb-2">
-					<CardTitle>Tus areas permitidas</CardTitle>
+					<CardTitle>Cargando reservas...</CardTitle>
 				</CardHeader>
-				<CardContent className="p-0">
-					{accessibleAreas.map((area, index) => (
-						<div key={index} className="flex items-center justify-between border-b p-4 last:border-b-0">
-							<div>
-								<p className="font-medium">{area.name}</p>
-								<p className="text-muted-foreground text-sm">Hasta {area.accessUntil}</p>
-							</div>
-							<span className={`text-sm ${area.status === 'Abierto' ? 'text-green-500' : 'text-red-500'}`}>
-								{area.status}
-							</span>
-						</div>
-					))}
-					<Link href="/access">
-						<Button variant="ghost" className="w-full py-5">
-							Mostrar todos
-						</Button>
-					</Link>
+				<CardContent className="py-4">
+					<p className="text-center">Cargando...</p>
 				</CardContent>
 			</Card>
-		</>
+		);
+	}
+
+	if (error) {
+		return (
+			<Card>
+				<CardHeader className="pb-2">
+					<CardTitle>Error al cargar reservas</CardTitle>
+				</CardHeader>
+				<CardContent className="p-0">
+					<p className="text-center text-red-500">{error}</p>
+				</CardContent>
+			</Card>
+		);
+	}
+
+	return (
+		<Card>
+			<CardHeader className="pb-2">
+				<CardTitle>Tus reservas</CardTitle>
+			</CardHeader>
+			<CardContent className="p-0">
+				{reservations.length === 0 ? (
+					<p className="p-4 text-center">No tienes reservas activas.</p>
+				) : (
+					reservations.map((reservation) => (
+						<div key={reservation.id} className="flex items-center justify-between border-b p-4 last:border-b-0">
+							<div>
+								<p className="font-medium">{reservation.reservationLocation.name}</p>
+								<p className="text-muted-foreground text-sm">Hasta {reservation.finishDate.toLocaleString()}</p>
+							</div>
+							<span
+								className={`text-sm ${
+									isReservationActive(reservation.startDate, reservation.finishDate) ? 'text-green-500' : 'text-red-500'
+								}`}
+							>
+								{isReservationActive(reservation.startDate, reservation.finishDate) ? 'Abierto' : 'Cerrado'}
+							</span>
+						</div>
+					))
+				)}
+				<Link href="/access">
+					<Button variant="ghost" className="w-full py-5">
+						Mostrar todos
+					</Button>
+				</Link>
+			</CardContent>
+		</Card>
 	);
 };

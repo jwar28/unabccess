@@ -1,7 +1,8 @@
 import { Space } from '@/types/space';
-import { getFirestore, collection, getDocs, Timestamp, getDoc, doc } from 'firebase/firestore';
+import { collection, getDocs, Timestamp, getDoc, doc } from 'firebase/firestore';
 
-const db = getFirestore();
+import { db } from '@/lib/firebaseConfig';
+
 const spacesCollection = collection(db, 'spaces');
 
 export const getSpaces = async (): Promise<Space[]> => {
