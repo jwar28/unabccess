@@ -9,13 +9,14 @@ import { isSpaceActive } from '@/lib/utils';
 
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Skeleton } from '../ui/skeleton';
 
 export const AreasCard = () => {
 	const { user } = useAuth();
 	const { reservations, loading, error, fetchReservations } = useReservationStore();
 
 	useEffect(() => {
-		if (user?.uid && !reservations.length) {
+		if (user?.uid) {
 			fetchReservations(user.uid);
 		}
 	}, [user?.uid, fetchReservations, reservations.length]);
@@ -29,10 +30,18 @@ export const AreasCard = () => {
 		return (
 			<Card>
 				<CardHeader className="pb-2">
-					<CardTitle>Cargando reservas...</CardTitle>
+					<CardTitle>
+						<Skeleton className="h-4 w-[120px]" />
+					</CardTitle>
 				</CardHeader>
 				<CardContent className="py-4">
-					<p className="text-center">Cargando...</p>
+					<p className="flex flex-col gap-1 text-center">
+						<Skeleton className="h-[77px] w-full" />
+						<Skeleton className="h-[77px] w-full" />
+						<Skeleton className="h-[77px] w-full" />
+						<Skeleton className="h-[77px] w-full" />
+						<Skeleton className="h-[77px] w-full" />
+					</p>
 				</CardContent>
 			</Card>
 		);
@@ -53,7 +62,7 @@ export const AreasCard = () => {
 
 	return (
 		<Card>
-			<CardHeader className="pb-2">
+			<CardHeader className="pb-2 text-center">
 				<CardTitle>Tus reservas</CardTitle>
 			</CardHeader>
 			<CardContent className="p-0">
@@ -61,13 +70,16 @@ export const AreasCard = () => {
 					<p className="p-4 text-center">No tienes reservas activas.</p>
 				) : (
 					activeReservations.map((reservation) => (
-						<div key={reservation.id} className="flex items-center justify-between border-b p-4 last:border-b-0">
+						<div
+							key={reservation.id}
+							className="flex items-center justify-between border-b p-4 last:border-b-0 sm:ml-2"
+						>
 							<div>
 								<p className="font-medium">{reservation.reservationLocation.name}</p>
 								<p className="text-muted-foreground text-sm">Hasta {reservation.finishDate.toLocaleString()}</p>
 							</div>
 							<span
-								className={`text-sm ${
+								className={`mr-2 text-sm ${
 									isSpaceActive(reservation.reservationLocation.openTime, reservation.reservationLocation.closeTime)
 										? 'text-green-500'
 										: 'text-red-500'

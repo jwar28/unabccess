@@ -13,7 +13,6 @@
   },
   "ignorePatterns": ["/*.config.*"],
   "rules": {
-    // Reglas personalizadas
     "import-helpers/order-imports": [
       "warn",
       {
