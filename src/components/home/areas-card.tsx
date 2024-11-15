@@ -15,10 +15,10 @@ export const AreasCard = () => {
 	const { reservations, loading, error, fetchReservations } = useReservationStore();
 
 	useEffect(() => {
-		if (user?.uid) {
+		if (user?.uid && !reservations.length) {
 			fetchReservations(user.uid);
 		}
-	}, [user?.uid, fetchReservations]);
+	}, [user?.uid, fetchReservations, reservations.length]);
 
 	const activeReservations = reservations
 		.filter((reservation) => reservation.finishDate > new Date())

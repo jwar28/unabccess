@@ -80,7 +80,7 @@ export const Navigation = ({ children, uid }: NavigationProps) => {
 	return (
 		<SidebarProvider>
 			{/* Desktop Sidebar */}
-			<Sidebar className="hidden w-64 sm:flex">
+			<Sidebar className="hidden w-64 md:flex">
 				<SidebarHeader>
 					<Link className="flex items-center" href="/">
 						<Image src="/logo.png" alt="logo" width={60} height={20} />
