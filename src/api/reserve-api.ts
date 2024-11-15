@@ -1,45 +1,41 @@
 import { Reservation } from '@/types/reservation';
-import { collection, getDocs, query, where, addDoc, Timestamp } from 'firebase/firestore';
+import { User } from '@/types/user';
+import { collection, getDocs, query, where, addDoc, Timestamp, DocumentSnapshot } from 'firebase/firestore';
 
 import { db } from '@/lib/firebaseConfig';
 
 import { getSpaceById } from './spaces-api';
-import { useUserStore } from '@/hooks/useUserStore';
-import { User } from '@/types/user';
 
 const reservationsCollection = collection(db, 'reservations');
 
-export const extractSpaceId = (reference: string): string => {
-	const match = reference.match(/\/([^/]+)$/);
-	if (match) {
-		return match[1];
+export const extractSpaceId = (reference: string): string => reference.match(/\/([^/]+)$/)?.[1] ?? '';
+
+const transformReservationData = async (doc: DocumentSnapshot): Promise<Reservation> => {
+	const data = doc.data();
+	if (!data) {
+		throw new Error('Reservation data not found');
 	}
-	return '';
+
+	const spaceId = extractSpaceId(data.reservationLocation);
+	const reservationLocation = await getSpaceById(spaceId);
+
+	return {
+		id: doc.id,
+		reservedBy: data.reservedBy,
+		reservationLocation,
+		startDate: data.startDate.toDate(),
+		finishDate: data.finishDate.toDate(),
+		requestReason: data.requestReason,
+	};
 };
 
-export const getReservationsByUser = async (uid: string) => {
+export const getReservationsByUser = async (uid: string): Promise<Reservation[]> => {
 	const q = query(reservationsCollection, where('reservedBy', '==', `/users/${uid}`));
 
 	try {
 		const querySnapshot = await getDocs(q);
 
-		const reserves = await Promise.all(
-			querySnapshot.docs.map(async (doc) => {
-				const data = doc.data();
-
-				const spaceId = extractSpaceId(data.reservationLocation);
-				const reservationLocation = await getSpaceById(spaceId);
-
-				return {
-					id: doc.id,
-					reservedBy: data.reservedBy,
-					reservationLocation,
-					startDate: data.startDate.toDate(),
-					finishDate: data.finishDate.toDate(),
-					requestReason: data.requestReason,
-				};
-			}),
-		);
+		const reserves = await Promise.all(querySnapshot.docs.map(transformReservationData));
 
 		console.log(reserves);
 		return reserves;
@@ -67,7 +63,6 @@ export const createReservation = async (
 		};
 
 		const reservationRef = await addDoc(reservationsCollection, newReservationData);
-
 		const space = await getSpaceById(selectedArea);
 
 		return {
