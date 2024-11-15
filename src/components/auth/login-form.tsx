@@ -1,6 +1,7 @@
 'use client';
 
 import { signInWithEmail } from '@/api/auth';
+import { getReservationsByUser } from '@/api/reserve-api';
 import useAuthStore from '@/hooks/useAuthStore';
 import { useReservationsStore } from '@/hooks/useReservationStore'; // Importa el hook de reservas
 import Link from 'next/link';
@@ -18,7 +19,7 @@ export const LoginForm = () => {
 	const [password, setPassword] = useState<string>('');
 	const [error, setError] = useState<string | null>(null);
 	const { setUser, setToken, setLoading, loading } = useAuthStore();
-	const { fetchReservations } = useReservationsStore();
+	const { setReservations } = useReservationsStore();
 	const router = useRouter();
 
 	const handleEmailLogin = async (e: React.FormEvent) => {
@@ -32,7 +33,7 @@ export const LoginForm = () => {
 			if (user) {
 				setUser(user);
 				setToken(await user.getIdToken());
-				fetchReservations(user.uid);
+				setReservations(await getReservationsByUser(user.uid));
 				router.push('/');
 				console.log('Inicio de sesión exitoso:', user);
 			} else {

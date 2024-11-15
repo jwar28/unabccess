@@ -2,24 +2,34 @@ import { getReservationsByUser } from '@/api/reserve-api';
 import { Reservation } from '@/types/reservation';
 import { create } from 'zustand';
 
-interface ReservationsStore {
-	reservations: Reservation[] | null;
+interface ReservationStore {
+	reservations: Reservation[];
 	loading: boolean;
 	error: string | null;
-	fetchReservations: (userUid: string) => void;
+	fetchReservations: (uid: string) => Promise<void>;
+	addReservation: (newReservation: Reservation) => void;
+	resetReservations: () => void;
 }
 
-export const useReservationsStore = create<ReservationsStore>((set) => ({
-	reservations: null,
-	loading: true,
+export const useReservationStore = create<ReservationStore>((set) => ({
+	reservations: [],
+	loading: false,
 	error: null,
-	fetchReservations: async (userUid: string) => {
-		set({ loading: true });
+
+	fetchReservations: async (uid) => {
+		set({ loading: true, error: null });
 		try {
-			const reservations = await getReservationsByUser(userUid);
+			const reservations = await getReservationsByUser(uid);
 			set({ reservations, loading: false });
 		} catch {
-			set({ error: 'Error al cargar las reservas', loading: false });
+			set({ error: 'Error al obtener las reservas', loading: false });
 		}
 	},
+
+	addReservation: (newReservation) =>
+		set((state) => ({
+			reservations: [...state.reservations, newReservation],
+		})),
+
+	resetReservations: () => set({ reservations: [], error: null }),
 }));

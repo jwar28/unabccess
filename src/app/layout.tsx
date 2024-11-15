@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { Inter as FontSans } from 'next/font/google';
 
 import './globals.css';
+import { Toaster } from '@/components/ui/toaster';
+
 import { cn } from '@/lib/utils';
 
 const fontSans = FontSans({
@@ -21,7 +23,10 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en" suppressHydrationWarning>
-			<body className={cn('', fontSans.variable)}>{children}</body>
+			<body className={cn('', fontSans.variable)}>
+				{children}
+				<Toaster />
+			</body>
 		</html>
 	);
 }

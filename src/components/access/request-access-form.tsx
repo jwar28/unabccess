@@ -1,8 +1,14 @@
 'use client';
 
+import { createReservation } from '@/api/reserve-api';
+import { toast } from '@/hooks/use-toast';
+import useAuth from '@/hooks/useAuth';
+import { useReservationStore } from '@/hooks/useReservationStore';
 import { useSpacesStore } from '@/hooks/useSpacesStore';
+import { User } from '@/types/user';
 import { ArrowLeft, Calendar, Clock } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -12,14 +18,21 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 
-export const RequestAccessForm = () => {
+interface RequestAccessFormProps {
+	currentUser: User | null;
+}
+
+export const RequestAccessForm = ({ currentUser }: RequestAccessFormProps) => {
 	const [selectedArea, setSelectedArea] = useState('');
 	const [startDate, setStartDate] = useState('');
 	const [endDate, setEndDate] = useState('');
 	const [startTime, setStartTime] = useState('');
 	const [endTime, setEndTime] = useState('');
+	const [requestReason, setRequestReason] = useState('');
+	const router = useRouter();
 
-	// Usamos la store para obtener los espacios
+	const { user } = useAuth();
+	const { addReservation } = useReservationStore();
 	const { spaces, loading, error, fetchSpaces } = useSpacesStore();
 
 	useEffect(() => {
@@ -28,9 +41,55 @@ export const RequestAccessForm = () => {
 		}
 	}, [spaces, fetchSpaces]);
 
-	const handleSubmit = (e: React.FormEvent) => {
+	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		console.log('Access request submitted');
+
+		if (!user) {
+			toast({
+				title: 'Error',
+				description: 'No estás autenticado',
+				variant: 'destructive',
+			});
+			return;
+		}
+
+		const startDateTime = new Date(`${startDate}T${startTime}`);
+		const endDateTime = new Date(`${endDate}T${endTime}`);
+
+		if (!currentUser) {
+			toast({
+				title: 'Error',
+				description: 'No se ha encontrado el usuario actual',
+				variant: 'destructive',
+			});
+			return;
+		}
+
+		const newReservation = await createReservation(
+			user.uid,
+			selectedArea,
+			startDateTime,
+			endDateTime,
+			requestReason,
+			currentUser,
+		);
+
+		if (newReservation) {
+			addReservation(newReservation);
+
+			toast({
+				title: 'Reserva creada',
+				description: `Tu reserva ha sido creada con éxito. ID: ${newReservation.id}`,
+			});
+
+			router.push('/access');
+		} else {
+			toast({
+				title: 'Error',
+				description: 'Hubo un error al crear la reserva. Intenta nuevamente.',
+				variant: 'destructive',
+			});
+		}
 	};
 
 	return (
@@ -68,7 +127,7 @@ export const RequestAccessForm = () => {
 										</SelectItem>
 									) : (
 										spaces.map((space) => (
-											<SelectItem key={space.id} value={space.name}>
+											<SelectItem key={space.id} value={space.id}>
 												{space.name} (Capacidad: {space.capacity})
 											</SelectItem>
 										))
@@ -151,7 +210,11 @@ export const RequestAccessForm = () => {
 							<CardDescription>Explica brevemente la razón para la solicitud</CardDescription>
 						</CardHeader>
 						<CardContent>
-							<Textarea placeholder="Escribe aquí..." />
+							<Textarea
+								placeholder="Escribe aquí..."
+								value={requestReason}
+								onChange={(e) => setRequestReason(e.target.value)}
+							/>
 						</CardContent>
 						<CardFooter>
 							<Button type="submit" className="w-full">
