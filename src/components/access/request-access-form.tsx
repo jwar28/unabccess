@@ -65,6 +65,15 @@ export const RequestAccessForm = ({ currentUser }: RequestAccessFormProps) => {
 			return;
 		}
 
+		if (!selectedArea) {
+			toast({
+				title: 'Error',
+				description: 'Debes seleccionar un área',
+				variant: 'destructive',
+			});
+			return;
+		}
+
 		const newReservation = await createReservation(
 			user.uid,
 			selectedArea,
@@ -105,14 +114,13 @@ export const RequestAccessForm = ({ currentUser }: RequestAccessFormProps) => {
 
 			<main className="flex-1 max-sm:pb-4">
 				<form onSubmit={handleSubmit} className="space-y-4">
-					{/* Selección de área */}
 					<Card>
 						<CardHeader>
 							<CardTitle>Seleccionar área</CardTitle>
 							<CardDescription>Selecciona el área a la que necesitas acceso</CardDescription>
 						</CardHeader>
 						<CardContent>
-							<Select value={selectedArea} onValueChange={setSelectedArea}>
+							<Select value={selectedArea} onValueChange={setSelectedArea} required>
 								<SelectTrigger>
 									<SelectValue placeholder="Seleccionar área" />
 								</SelectTrigger>
@@ -137,7 +145,6 @@ export const RequestAccessForm = ({ currentUser }: RequestAccessFormProps) => {
 						</CardContent>
 					</Card>
 
-					{/* Periodo de acceso */}
 					<Card>
 						<CardHeader>
 							<CardTitle>Periodo de acceso</CardTitle>
@@ -155,6 +162,7 @@ export const RequestAccessForm = ({ currentUser }: RequestAccessFormProps) => {
 											value={startDate}
 											onChange={(e) => setStartDate(e.target.value)}
 											className="pl-10"
+											required
 										/>
 									</div>
 								</div>
@@ -168,6 +176,7 @@ export const RequestAccessForm = ({ currentUser }: RequestAccessFormProps) => {
 											value={endDate}
 											onChange={(e) => setEndDate(e.target.value)}
 											className="pl-10"
+											required
 										/>
 									</div>
 								</div>
@@ -183,6 +192,7 @@ export const RequestAccessForm = ({ currentUser }: RequestAccessFormProps) => {
 											value={startTime}
 											onChange={(e) => setStartTime(e.target.value)}
 											className="pl-10"
+											required
 										/>
 									</div>
 								</div>
@@ -196,6 +206,7 @@ export const RequestAccessForm = ({ currentUser }: RequestAccessFormProps) => {
 											value={endTime}
 											onChange={(e) => setEndTime(e.target.value)}
 											className="pl-10"
+											required
 										/>
 									</div>
 								</div>
