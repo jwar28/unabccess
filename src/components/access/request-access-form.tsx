@@ -44,60 +44,64 @@ export const RequestAccessForm = ({ currentUser }: RequestAccessFormProps) => {
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 
-		if (!user) {
+		const showError = (title: string, description: string) => {
 			toast({
-				title: 'Error',
-				description: 'No estás autenticado',
+				title,
+				description,
 				variant: 'destructive',
 			});
+		};
+
+		if (!user) {
+			showError('Error', 'No estás autenticado');
 			return;
 		}
 
 		const startDateTime = new Date(`${startDate}T${startTime}`);
 		const endDateTime = new Date(`${endDate}T${endTime}`);
 
+		if (startDateTime < new Date() || endDateTime < new Date()) {
+			showError('Error', 'La fecha y hora no pueden ser en el pasado.');
+			return;
+		}
+
+		if (startDateTime >= endDateTime) {
+			showError('Error', 'La fecha de inicio debe ser anterior a la fecha de fin.');
+			return;
+		}
+
 		if (!currentUser) {
-			toast({
-				title: 'Error',
-				description: 'No se ha encontrado el usuario actual',
-				variant: 'destructive',
-			});
+			showError('Error', 'No se ha encontrado el usuario actual');
 			return;
 		}
 
 		if (!selectedArea) {
-			toast({
-				title: 'Error',
-				description: 'Debes seleccionar un área',
-				variant: 'destructive',
-			});
+			showError('Error', 'Debes seleccionar un área');
 			return;
 		}
 
-		const newReservation = await createReservation(
-			user.uid,
-			selectedArea,
-			startDateTime,
-			endDateTime,
-			requestReason,
-			currentUser,
-		);
+		try {
+			const newReservation = await createReservation(
+				user.uid,
+				selectedArea,
+				startDateTime,
+				endDateTime,
+				requestReason,
+				currentUser,
+			);
 
-		if (newReservation) {
-			addReservation(newReservation);
-
-			toast({
-				title: 'Reserva creada',
-				description: `Tu reserva ha sido creada con éxito. ID: ${newReservation.id}`,
-			});
-
-			router.push('/access');
-		} else {
-			toast({
-				title: 'Error',
-				description: 'Hubo un error al crear la reserva. Intenta nuevamente.',
-				variant: 'destructive',
-			});
+			if (newReservation) {
+				addReservation(newReservation);
+				toast({
+					title: 'Reserva creada',
+					description: `Tu reserva ha sido creada con éxito. ID: ${newReservation.id}`,
+				});
+				router.push('/access');
+			} else {
+				showError('Error', 'Hubo un error al crear la reserva. Intenta nuevamente.');
+			}
+		} catch {
+			showError('Error', 'Ocurrió un error inesperado. Intenta nuevamente.');
 		}
 	};
 
@@ -214,7 +218,6 @@ export const RequestAccessForm = ({ currentUser }: RequestAccessFormProps) => {
 						</CardContent>
 					</Card>
 
-					{/* Razón de acceso */}
 					<Card>
 						<CardHeader>
 							<CardTitle>Razón de acceso</CardTitle>
