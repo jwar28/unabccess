@@ -1,6 +1,7 @@
 'use client';
 
 import useAuth from '@/hooks/useAuth';
+import { useReservations } from '@/hooks/useReservation';
 
 import { Navigation } from './navigation';
 
@@ -10,6 +11,7 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
 	const { user, loading } = useAuth();
+	useReservations();
 
 	if (loading) return <p>Cargando...</p>;
 	if (!user) return null;
