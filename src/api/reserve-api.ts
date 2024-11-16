@@ -8,15 +8,22 @@ import { getSpaceById } from './spaces-api';
 
 const reservationsCollection = collection(db, 'reservations');
 
-export const extractSpaceId = (reference: string): string => reference.match(/\/([^/]+)$/)?.[1] ?? '';
+export const extractSpaceId = (path: string): string => {
+	const parts = path.split('/');
+	return parts[2] || '';
+};
 
 const transformReservationData = async (doc: DocumentSnapshot): Promise<Reservation> => {
 	const data = doc.data();
-	if (!data) {
-		throw new Error('Reservation data not found');
+	if (!data || !data.reservationLocation || typeof data.reservationLocation !== 'string') {
+		throw new Error(`Invalid reservation data or reservationLocation for doc ID: ${doc.id}`);
 	}
 
 	const spaceId = extractSpaceId(data.reservationLocation);
+	if (!spaceId) {
+		throw new Error(`Invalid spaceId extracted for reservation ID: ${doc.id}`);
+	}
+
 	const reservationLocation = await getSpaceById(spaceId);
 
 	return {

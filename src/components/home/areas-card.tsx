@@ -9,14 +9,13 @@ import { isSpaceActive } from '@/lib/utils';
 
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { Skeleton } from '../ui/skeleton';
 
 export const AreasCard = () => {
 	const { user } = useAuth();
 	const { reservations, loading, error, fetchReservations } = useReservationStore();
 
 	useEffect(() => {
-		if (user?.uid) {
+		if (user?.uid && !reservations.length) {
 			fetchReservations(user.uid);
 		}
 	}, [user?.uid, fetchReservations, reservations.length]);
@@ -30,19 +29,9 @@ export const AreasCard = () => {
 		return (
 			<Card>
 				<CardHeader className="pb-2">
-					<CardTitle>
-						<Skeleton className="h-4 w-[120px]" />
-					</CardTitle>
+					<CardTitle>Cargando...</CardTitle>
 				</CardHeader>
-				<CardContent className="py-4">
-					<p className="flex flex-col gap-1 text-center">
-						<Skeleton className="h-[77px] w-full" />
-						<Skeleton className="h-[77px] w-full" />
-						<Skeleton className="h-[77px] w-full" />
-						<Skeleton className="h-[77px] w-full" />
-						<Skeleton className="h-[77px] w-full" />
-					</p>
-				</CardContent>
+				<CardContent className="py-4">Cargando...</CardContent>
 			</Card>
 		);
 	}
