@@ -10,23 +10,12 @@ import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 
 export const AreasCard = () => {
-	const { reservations, loading, error } = useReservationStore();
+	const { reservations, error } = useReservationStore();
 
 	const activeReservations = reservations
 		.filter((reservation) => reservation.finishDate > new Date())
 		.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime())
 		.slice(0, 5);
-
-	if (loading) {
-		return (
-			<Card>
-				<CardHeader className="pb-2">
-					<CardTitle>Cargando...</CardTitle>
-				</CardHeader>
-				<CardContent className="py-4">Cargando...</CardContent>
-			</Card>
-		);
-	}
 
 	if (error) {
 		return (

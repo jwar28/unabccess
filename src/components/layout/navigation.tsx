@@ -24,6 +24,7 @@ import {
 
 import { cn, getInitials } from '@/lib/utils';
 
+import { NavSkeleton } from './nav-skeleton';
 import { NavUser } from './nav-user';
 
 interface NavigationProps {
@@ -49,7 +50,7 @@ export const Navigation = ({ children, uid }: NavigationProps) => {
 	}, [setUser, uid]);
 
 	if (!user) {
-		return <div>Cargando usuario...</div>;
+		return <NavSkeleton />;
 	}
 
 	const menuItems = [
