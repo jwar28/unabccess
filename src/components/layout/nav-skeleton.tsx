@@ -53,7 +53,7 @@ export const NavSkeleton = () => {
 					<Skeleton className="size-10 rounded-full bg-gray-200" />
 				</header>
 
-				<main className="flex h-dvh flex-col gap-3 p-4">
+				<main className="flex h-full flex-col gap-3 p-4">
 					<Skeleton className="h-1/2 w-full" />
 					<Skeleton className="h-full w-full" />
 				</main>
