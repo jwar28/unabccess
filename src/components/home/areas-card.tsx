@@ -1,21 +1,43 @@
 'use client';
 
 import { useReservationStore } from '@/hooks/useReservationStore';
-import Image from 'next/image';
+import { AlertCircle } from 'lucide-react';
 import Link from 'next/link';
 
-import { isSpaceActive } from '@/lib/utils';
+import { cn, isSpaceActive } from '@/lib/utils';
 
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Skeleton } from '../ui/skeleton';
 
 export const AreasCard = () => {
-	const { reservations, error } = useReservationStore();
+	const { reservations, error, loading } = useReservationStore();
 
 	const activeReservations = reservations
 		.filter((reservation) => reservation.finishDate > new Date())
 		.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime())
 		.slice(0, 5);
+
+	if (loading) {
+		return (
+			<Card>
+				<CardHeader className="pb-2">
+					<CardTitle>Tus reservas</CardTitle>
+				</CardHeader>
+				<CardContent className="p-0">
+					{[1, 2, 3].map((index) => (
+						<div key={index} className="flex items-center justify-between border-b p-4 last:border-b-0 sm:ml-2">
+							<div className="space-y-2">
+								<Skeleton className="h-4 w-32" /> {/* Para el nombre del espacio */}
+								<Skeleton className="h-3 w-48" /> {/* Para la fecha */}
+							</div>
+							<Skeleton className="h-4 w-16" /> {/* Para el estado (Abierto/Cerrado) */}
+						</div>
+					))}
+				</CardContent>
+			</Card>
+		);
+	}
 
 	if (error) {
 		return (
@@ -35,11 +57,15 @@ export const AreasCard = () => {
 			<CardHeader className="pb-2">
 				<CardTitle>Tus reservas</CardTitle>
 			</CardHeader>
-			<CardContent className="p-0">
+			<CardContent className={cn(activeReservations.length === 0 ? 'p-6' : 'p-0')}>
 				{activeReservations.length === 0 ? (
-					<div className="flex flex-col items-center">
-						<p className="p-4 text-center">No tienes reservas activas.</p>
-						<Image src="/empty.png" alt="empty" width={300} height={200} />
+					<div className="flex flex-col items-center justify-center rounded-lg bg-gray-50 p-6 text-center text-gray-500">
+						<AlertCircle className="mb-4 h-12 w-12 text-gray-400" />
+						<p className="text-lg font-semibold text-gray-600">¡No tienes accesos activos!</p>
+						<p className="text-sm text-gray-500">Solicita un acceso para comenzar a usar las áreas disponibles.</p>
+						<Link href="/access/request-access">
+							<Button className="py-2text-white mt-4 rounded-lg px-4">Solicitar acceso</Button>
+						</Link>
 					</div>
 				) : (
 					<div>

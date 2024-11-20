@@ -13,7 +13,7 @@ import { useEffect } from 'react';
  *
  * @returns {void}
  */
-export const useReservations = () => {
+export const useReservations = (): void => {
 	const { user } = useAuth();
 	const { reservations, fetchReservations } = useReservationStore();
 
